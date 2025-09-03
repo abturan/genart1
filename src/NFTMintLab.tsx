@@ -54,7 +54,6 @@ const PALETTES: string[][] = [
   ["#0a0a0a", "#1f1f1f", "#3c3c3c", "#d90429", "#ffba08"],
 ];
 
-// === Algorithm registry (0..32 built-ins) + 33..132 factory-backed new ones ===
 const ALGORITHMS = [
   { key: 0, name: "Nebula Flow" },
   { key: 1, name: "Crystal Lattice" },
@@ -89,30 +88,127 @@ const ALGORITHMS = [
   { key: 30, name: "Contours" },
   { key: 31, name: "Embers" },
   { key: 32, name: "Vortex Grid" },
-  // 100 factory-backed originals (33..132)
-  { key: 33, name: "Hex Flux" },{ key: 34, name: "Amber Hive" },{ key: 35, name: "Crystal Honey" },{ key: 36, name: "Hex Drift" },{ key: 37, name: "Pulse Hive" },
-  { key: 38, name: "Polar Bloom" },{ key: 39, name: "Solar Petals" },{ key: 40, name: "Radial Lace" },{ key: 41, name: "Petal Mirage" },{ key: 42, name: "Iris Spinner" },
-  { key: 43, name: "Warped Stripes" },{ key: 44, name: "Slalom" },{ key: 45, name: "Banded Silk" },{ key: 46, name: "Ribbon Field" },{ key: 47, name: "Taffy Lines" },
-  { key: 48, name: "Voronoi Sparks" },{ key: 49, name: "Crackle Edge" },{ key: 50, name: "Broken Glass" },{ key: 51, name: "Lightning Cells" },{ key: 52, name: "Pulse Cracks" },
-  { key: 53, name: "Orb Rings" },{ key: 54, name: "Harmonic Halo" },{ key: 55, name: "Echo Circles" },{ key: 56, name: "Pulse Rings" },{ key: 57, name: "Chorus Halo" },
-  { key: 58, name: "Rotogrid" },{ key: 59, name: "Offset Weave" },{ key: 60, name: "Tilted Lattice" },{ key: 61, name: "Orbital Grid" },{ key: 62, name: "Cranked Weave" },
-  { key: 63, name: "Flow Field" },{ key: 64, name: "Advection Mist" },{ key: 65, name: "Vector Drift" },{ key: 66, name: "Stream Lines" },{ key: 67, name: "Whorl Fog" },
-  { key: 68, name: "Checker Melt" },{ key: 69, name: "Drip Board" },{ key: 70, name: "Melted Tiles" },{ key: 71, name: "Smear Grid" },{ key: 72, name: "Soft Check" },
-  { key: 73, name: "Ridge Mountain" },{ key: 74, name: "Blade Ridges" },{ key: 75, name: "Quartz Ridge" },{ key: 76, name: "Sawback" },{ key: 77, name: "Opal Rims" },
-  { key: 78, name: "Turbulence" },{ key: 79, name: "Haze Storm" },{ key: 80, name: "Boil Field" },{ key: 81, name: "Vapor Flux" },{ key: 82, name: "Dust Surge" },
-  { key: 83, name: "Curl Stream" },{ key: 84, name: "Kármán Trails" },{ key: 85, name: "Vortex Sheets" },{ key: 86, name: "Wake Curl" },{ key: 87, name: "Spiral Drift" },
-  { key: 88, name: "Lissajous Net" },{ key: 89, name: "Phase Weave" },{ key: 90, name: "Chirp Cross" },{ key: 91, name: "Beat Grid" },{ key: 92, name: "Interfere" },
-  { key: 93, name: "Spiral Garden" },{ key: 94, name: "Golden Coil" },{ key: 95, name: "Log Spiral" },{ key: 96, name: "Fountain Arms" },{ key: 97, name: "Whirlpool Arch" },
-  { key: 98, name: "Tri Bands" },{ key: 99, name: "Prism Tile" },{ key: 100, name: "Facet Mesh" },{ key: 101, name: "Delta Quilt" },{ key: 102, name: "Trident Weave" },
-  { key: 103, name: "Dot Matrix" },{ key: 104, name: "Bokeh Field" },{ key: 105, name: "Halftone" },{ key: 106, name: "Spray Dots" },{ key: 107, name: "Pearl Scatter" },
-  { key: 108, name: "Scanlines" },{ key: 109, name: "CRT Warp" },{ key: 110, name: "Interlace" },{ key: 111, name: "Sync Sweep" },{ key: 112, name: "Raster Flow" },
-  { key: 113, name: "Metaballs" },{ key: 114, name: "Liquid Nodes" },{ key: 115, name: "Gel Blobs" },{ key: 116, name: "Droplet Web" },{ key: 117, name: "Plasma Beads" },
-  { key: 118, name: "Cross Weave" },{ key: 119, name: "Basket Warp" },{ key: 120, name: "Loom Drift" },{ key: 121, name: "Wicker Flux" },{ key: 122, name: "Twill Waves" },
-  { key: 123, name: "Supershape Ring" },{ key: 124, name: "Star Bloom" },{ key: 125, name: "Petal Super" },{ key: 126, name: "Orb Super" },{ key: 127, name: "Blade Super" },
-  { key: 128, name: "Hex Mosaic" },{ key: 129, name: "Honey Tiles" },{ key: 130, name: "Bee Net" },{ key: 131, name: "Cell Carpet" },{ key: 132, name: "Wax Weave" },
+  { key: 33, name: "Hex Flux" },
+{ key: 34, name: "Amber Hive" },
+{ key: 35, name: "Crystal Honey" },
+{ key: 36, name: "Hex Drift" },
+{ key: 37, name: "Pulse Hive" },
+
+{ key: 38, name: "Polar Bloom" },
+{ key: 39, name: "Solar Petals" },
+{ key: 40, name: "Radial Lace" },
+{ key: 41, name: "Petal Mirage" },
+{ key: 42, name: "Iris Spinner" },
+
+{ key: 43, name: "Warped Stripes" },
+{ key: 44, name: "Slalom" },
+{ key: 45, name: "Banded Silk" },
+{ key: 46, name: "Ribbon Field" },
+{ key: 47, name: "Taffy Lines" },
+
+{ key: 48, name: "Voronoi Sparks" },
+{ key: 49, name: "Crackle Edge" },
+{ key: 50, name: "Broken Glass" },
+{ key: 51, name: "Lightning Cells" },
+{ key: 52, name: "Pulse Cracks" },
+
+{ key: 53, name: "Orb Rings" },
+{ key: 54, name: "Harmonic Halo" },
+{ key: 55, name: "Echo Circles" },
+{ key: 56, name: "Pulse Rings" },
+{ key: 57, name: "Chorus Halo" },
+
+{ key: 58, name: "Rotogrid" },
+{ key: 59, name: "Offset Weave" },
+{ key: 60, name: "Tilted Lattice" },
+{ key: 61, name: "Orbital Grid" },
+{ key: 62, name: "Cranked Weave" },
+
+{ key: 63, name: "Flow Field" },
+{ key: 64, name: "Advection Mist" },
+{ key: 65, name: "Vector Drift" },
+{ key: 66, name: "Stream Lines" },
+{ key: 67, name: "Whorl Fog" },
+
+{ key: 68, name: "Checker Melt" },
+{ key: 69, name: "Drip Board" },
+{ key: 70, name: "Melted Tiles" },
+{ key: 71, name: "Smear Grid" },
+{ key: 72, name: "Soft Check" },
+
+{ key: 73, name: "Ridge Mountain" },
+{ key: 74, name: "Blade Ridges" },
+{ key: 75, name: "Quartz Ridge" },
+{ key: 76, name: "Sawback" },
+{ key: 77, name: "Opal Rims" },
+
+{ key: 78, name: "Turbulence" },
+{ key: 79, name: "Haze Storm" },
+{ key: 80, name: "Boil Field" },
+{ key: 81, name: "Vapor Flux" },
+{ key: 82, name: "Dust Surge" },
+
+{ key: 83, name: "Curl Stream" },
+{ key: 84, name: "Kármán Trails" },
+{ key: 85, name: "Vortex Sheets" },
+{ key: 86, name: "Wake Curl" },
+{ key: 87, name: "Spiral Drift" },
+
+{ key: 88, name: "Lissajous Net" },
+{ key: 89, name: "Phase Weave" },
+{ key: 90, name: "Chirp Cross" },
+{ key: 91, name: "Beat Grid" },
+{ key: 92, name: "Interfere" },
+
+{ key: 93, name: "Spiral Garden" },
+{ key: 94, name: "Golden Coil" },
+{ key: 95, name: "Log Spiral" },
+{ key: 96, name: "Fountain Arms" },
+{ key: 97, name: "Whirlpool Arch" },
+
+{ key: 98, name: "Tri Bands" },
+{ key: 99, name: "Prism Tile" },
+{ key: 100, name: "Facet Mesh" },
+{ key: 101, name: "Delta Quilt" },
+{ key: 102, name: "Trident Weave" },
+
+{ key: 103, name: "Dot Matrix" },
+{ key: 104, name: "Bokeh Field" },
+{ key: 105, name: "Halftone" },
+{ key: 106, name: "Spray Dots" },
+{ key: 107, name: "Pearl Scatter" },
+
+{ key: 108, name: "Scanlines" },
+{ key: 109, name: "CRT Warp" },
+{ key: 110, name: "Interlace" },
+{ key: 111, name: "Sync Sweep" },
+{ key: 112, name: "Raster Flow" },
+
+{ key: 113, name: "Metaballs" },
+{ key: 114, name: "Liquid Nodes" },
+{ key: 115, name: "Gel Blobs" },
+{ key: 116, name: "Droplet Web" },
+{ key: 117, name: "Plasma Beads" },
+
+{ key: 118, name: "Cross Weave" },
+{ key: 119, name: "Basket Warp" },
+{ key: 120, name: "Loom Drift" },
+{ key: 121, name: "Wicker Flux" },
+{ key: 122, name: "Twill Waves" },
+
+{ key: 123, name: "Supershape Ring" },
+{ key: 124, name: "Star Bloom" },
+{ key: 125, name: "Petal Super" },
+{ key: 126, name: "Orb Super" },
+{ key: 127, name: "Blade Super" },
+
+{ key: 128, name: "Hex Mosaic" },
+{ key: 129, name: "Honey Tiles" },
+{ key: 130, name: "Bee Net" },
+{ key: 131, name: "Cell Carpet" },
+{ key: 132, name: "Wax Weave" },
 ];
 
-// Types
 type Traits = {
   edition: number;
   seed: string;
@@ -163,7 +259,7 @@ float stripes(vec2 p){ return 0.5 + 0.5*sin(10.0*p.x + 2.0*p.y); }
 float voronoi(vec2 p){ vec2 g=floor(p); vec2 f=fract(p); float md=1.0; for(int y=-1;y<=1;y++){ for(int x=-1;x<=1;x++){ vec2 o=vec2(float(x),float(y)); vec2 r=hash2(g+o)-f+o; md=min(md, dot(r,r)); }} return sqrt(md); }
 vec3 mix5(vec3 a, vec3 b, vec3 c, vec3 d, vec3 e, float t){ float s=smoothstep(0.0,1.0,t); if(s<0.25) return mix(a,b,s*4.0); if(s<0.5) return mix(b,c,(s-0.25)*4.0); if(s<0.75) return mix(c,d,(s-0.5)*4.0); return mix(d,e,(s-0.75)*4.0); }
 
-// --- NEW HELPERS ---
+// --- NEW HELPERS (add after existing helpers, before main) ---
 float h1(float x){ return fract(sin(x*78.233)*43758.5453123); }
 vec2  h2(float x){ return vec2(h1(x+0.123), h1(x+4.567)); }
 float ridge(float n){ return 2.0*abs(n-0.5); }
@@ -186,7 +282,7 @@ float supershape(float theta, float m, float a, float b, float n1, float n2, flo
   return pow(t1+t2, -1.0/n1);
 }
 
-// Factory for modes >= 33 (33..132)
+// Factory for modes >= 33 (33..132 => 20 family * 5 variants)
 float algoFactory(int mode, vec2 p, vec2 q, float t){
   float id   = float(mode - 33);
   float fam  = floor(mod(id, 20.0));   // 0..19
@@ -196,12 +292,16 @@ float algoFactory(int mode, vec2 p, vec2 q, float t){
   float k2   = mix(0.6, 2.6, ph.y);
   float res  = 0.0;
 
-  if (fam < 0.5) { // Hex Flux
-    vec2 u = q*k1; vec2 r = fract(u) - 0.5; float d = length(r);
+  if (fam < 0.5) { // Hex Flux family
+    vec2 u = q*k1;
+    vec2 r = fract(u) - 0.5;
+    float d = length(r);
     res = smoothstep(0.45, 0.0, d + 0.12*sin(6.0*atan(r.y,r.x) + t*(0.6+k2) + var));
     res = mix(res, fbm(u*1.3 + ph.x*7.1), 0.35);
   } else if (fam < 1.5) { // Polar Bloom
-    vec2 r = p*rot(ph.x*6.28318); float rr=length(r); float a=atan(r.y,r.x);
+    vec2 r = p*rot(ph.x*6.28318);
+    float rr = length(r);
+    float a  = atan(r.y,r.x);
     res = 0.5 + 0.5*sin(a*(6.0+2.0*var) + rr*(3.0+k1) - t*(0.5+k2*0.3));
     res = smoothstep(0.2, 0.9, res);
   } else if (fam < 2.5) { // Warped Stripes
@@ -220,7 +320,9 @@ float algoFactory(int mode, vec2 p, vec2 q, float t){
     float gy = smoothstep(0.48,0.52, fract(u.y*(2.0+k2)));
     res = max(gx, gy) * (0.5+0.5*fbm(u*1.3));
   } else if (fam < 6.5) { // Flow Field
-    float e=0.01; float n1=fbm(q+vec2(0.0,e)); float n2=fbm(q+vec2(e,0.0));
+    float e=0.01;
+    float n1=fbm(q+vec2(0.0,e));
+    float n2=fbm(q+vec2(e,0.0));
     vec2 curl=vec2(n1-n2, n2-n1);
     res = smoothstep(0.25,0.9, fbm(q + (1.0+0.8*var)*curl + 0.3*t));
   } else if (fam < 7.5) { // Checker Melt
@@ -229,42 +331,65 @@ float algoFactory(int mode, vec2 p, vec2 q, float t){
   } else if (fam < 8.5) { // Ridge Mountain
     res = smoothstep(0.2,0.95, fbmRidged(q*(1.0+0.5*var)) );
   } else if (fam < 9.5) { // Turbulence
-    float n = 0.0, amp = 0.5; vec2 u=q; for(int i=0;i<4;i++){ n += amp*abs(noise(u)); u*=2.0; amp*=0.5; }
+    float n = 0.0, amp = 0.5; vec2 u=q;
+    for(int i=0;i<4;i++){ n += amp*abs(noise(u)); u*=2.0; amp*=0.5; }
     res = smoothstep(0.25,0.9, n);
-  } else if (fam < 10.5) { // Curl Stream
-    float e=0.02+k2*0.02; float n1=fbm(q+vec2(0.0,e)); float n2=fbm(q+vec2(e,0.0)); vec2 curl=vec2(n1-n2, n2-n1);
+  } else if (fam < 10.5) { // Curl Stream (variant params)
+    float e=0.02+k2*0.02;
+    float n1=fbm(q+vec2(0.0,e)); float n2=fbm(q+vec2(e,0.0));
+    vec2 curl=vec2(n1-n2, n2-n1);
     res = smoothstep(0.2,0.9, fbm(q + (0.8+0.6*var)*curl + t*0.4));
   } else if (fam < 11.5) { // Lissajous Net
     vec2 u=q*vec2(2.5+k1, 2.0+k2);
     float s = sin(u.x*(2.0+var) + 0.5*t) * sin(u.y*(3.0+var) - 0.4*t);
     res = smoothstep(0.2,0.9, 0.5+0.5*s);
   } else if (fam < 12.5) { // Spiral Garden
-    vec2 r = p* (1.2+0.2*var); float a = atan(r.y,r.x); float rr= length(r);
+    vec2 r = p* (1.2+0.2*var);
+    float a = atan(r.y,r.x);
+    float rr= length(r);
     res = smoothstep(0.2,0.9, 0.5 + 0.5*sin(a*(4.0+2.0*var) + log(rr+1.0)*(6.0+k1) - t*(0.4+k2)) );
   } else if (fam < 13.5) { // Tri Bands
-    vec2 u = q; float tri = (sin(u.x*(2.5+var)) + sin((u.x+u.y)*(2.8+0.3*var)) + sin(u.y*(3.0+0.2*var)))*0.333;
+    vec2 u = q;
+    float tri = (sin(u.x*(2.5+var)) + sin((u.x+u.y)*(2.8+0.3*var)) + sin(u.y*(3.0+0.2*var)))*0.333;
     res = smoothstep(0.2,0.9, tri*0.7 + 0.3*fbm(u*1.1));
   } else if (fam < 14.5) { // Dot Matrix
-    vec2 u = q*(2.0+k1); vec2 cell=floor(u); vec2 f=fract(u)-0.5; float rad = 0.35 + 0.25*sin(hash(cell)*6.283 + t*(0.3+0.2*var));
+    vec2 u = q*(2.0+k1);
+    vec2 cell=floor(u); vec2 f=fract(u)-0.5;
+    float rad = 0.35 + 0.25*sin(hash(cell)*6.283 + t*(0.3+0.2*var));
     res = smoothstep(0.45, 0.0, length(f)-rad);
   } else if (fam < 15.5) { // Scanlines
     float s1 = 0.5+0.5*sin(q.y*(8.0+2.0*var) + t*(0.6+k2));
     float s2 = 0.5+0.5*sin(q.x*(9.0+1.5*var) - t*(0.5+k1));
     res = smoothstep(0.35,0.85, max(s1,s2) );
-  } else if (fam < 16.5) { // Metaballs (approx)
-    vec2 u=q*(1.2+0.2*var); vec2 c1=vec2( sin(t*0.5), cos(t*0.4)); vec2 c2=vec2( sin(t*0.3+1.7), cos(t*0.6+0.9)); vec2 c3=vec2( sin(t*0.7+3.1), cos(t*0.2+2.3));
+  } else if (fam < 16.5) { // Metaballs (fake via soft min)
+    vec2 u=q*(1.2+0.2*var);
+    vec2 c1=vec2( sin(t*0.5), cos(t*0.4));
+    vec2 c2=vec2( sin(t*0.3+1.7), cos(t*0.6+0.9));
+    vec2 c3=vec2( sin(t*0.7+3.1), cos(t*0.2+2.3));
     float d = exp(-6.0*length(u-c1)) + exp(-6.0*length(u-c2)) + exp(-6.0*length(u-c3));
     res = smoothstep(0.15, 0.6, d);
   } else if (fam < 17.5) { // Cross Weave
-    vec2 u=q*rot(0.2+0.4*ph.x); float a = sin(u.x*(3.0+0.5*var)+0.4*t); float b = sin(u.y*(3.2+0.4*var)-0.5*t);
+    vec2 u=q*rot(0.2+0.4*ph.x);
+    float a = sin(u.x*(3.0+0.5*var)+0.4*t);
+    float b = sin(u.y*(3.2+0.4*var)-0.5*t);
     res = smoothstep(0.2,0.9, 0.5+0.5*(a*b));
   } else if (fam < 18.5) { // Supershape Ring
-    vec2 r = p*(1.2+0.2*var); float th = atan(r.y,r.x); float rr = length(r); float ss = supershape(th, 4.0+2.0*var, 1.0, 1.0, 0.3+0.2*var, 1.7+k1, 1.7+k2);
-    res = smoothstep(0.05,0.15, abs(rr - ss) ); res = 1.0 - res;
+    vec2 r = p*(1.2+0.2*var);
+    float th = atan(r.y,r.x);
+    float rr = length(r);
+    float ss = supershape(th, 4.0+2.0*var, 1.0, 1.0, 0.3+0.2*var, 1.7+k1, 1.7+k2);
+    res = smoothstep(0.05,0.15, abs(rr - ss) );
+    res = 1.0 - res;
   } else { // Hex Mosaic
-    vec2 u = q*(1.6+0.3*var); vec2 id=floor(u); vec2 fu=fract(u)-0.5; float ang = floor(mod(id.x+id.y,2.0))*3.14159*0.5; fu = rot(ang)*fu; float d=length(fu - (hash2(id)-0.5)*0.2);
+    vec2 u = q*(1.6+0.3*var);
+    vec2 id=floor(u);
+    vec2 fu=fract(u)-0.5;
+    float ang = floor(mod(id.x+id.y,2.0))*3.14159*0.5;
+    fu = rot(ang)*fu;
+    float d=length(fu - (hash2(id)-0.5)*0.2);
     res = smoothstep(0.4,0.0,d) + 0.25*fbm(u*1.3);
   }
+
   return clamp(res, 0.0, 1.0);
 }
 
@@ -284,7 +409,7 @@ void main(){
 
   float t = uTime * kSpeed;
 
-  vec2 q = p * kScale + 1.4 * flow;  // stable but noticeable
+  vec2 q = p * kScale + 1.4 * flow;
   q = warp(q + vec2(0.1*t, -0.07*t), kWarp);
   q = warp(q + vec2(0.23*t, 0.19*t), 0.5*kWarp);
 
@@ -325,7 +450,7 @@ void main(){
   } else if (uMode == 29) { m = smoothstep(0.2,0.95, f1*(1.0 - smoothstep(0.2,0.8,voronoi(q*1.1))));
   } else if (uMode == 30) { float qn=quant(fbm(q*1.2), 8.0); m = smoothstep(0.2,0.9, qn);
   } else if (uMode == 31) { float spark = step(0.995, hash(floor(q*vec2(20.0,10.0))+t)); m = smoothstep(0.2,0.9, 0.3*f1 + 0.7*spark);
-  } else if (uMode == 32) { float a = atan(p.y,p.x) + 0.8*t; vec2 pv = p * rot(a); m = smoothstep(0.2,0.95, fbm(pv*1.1)); }
+  } else if (uMode == 32) { float a = atan(p.y,p.x) + 0.8*t; vec2 pv = p * rot(a); m = smoothstep(0.2,0.95, fbm(pv*1.1)); } 
   else { m = algoFactory(uMode, p, q, t); }
 
   vec3 c0=uC0, c1=uC1, c2=uC2, c3=uC3, c4=uC4;
@@ -358,18 +483,21 @@ export default function NFTMintLab() {
   const effSig = useRef(new THREE.Vector4(0,0,0,0)); // temporally gated effective signal
   const gate = useRef({accX:0, accY:0, accAppr:0, accAct:0, mode:'none' as 'none'|'fx'|'fy'|'approach'|'activity', hold:0});
 
-  const [showHUD, setShowHUD] = useState(true);
+  const [showHUD, setShowHUD] = useState(true)  
 
-  // Audio
+  const [edition, setEdition] = useState(1);
+
+  // ADD
   const audioRef = useRef<AudioEngine|null>(null);
   const [audioOn, setAudioOn] = useState(false);
   const [audioVol, setAudioVol] = useState(0.8);
   const algoIndexRef = useRef(0);
 
-  // NFT traits
-  const [edition, setEdition] = useState(1);
+
   const [seed, setSeed] = useState(randHex(8));
   const rng = useMemo(() => makeRng(seed), [seed]);
+
+
 
   const traits = useMemo(() => {
     const algoIdx = Math.floor(rng() * ALGORITHMS.length);
@@ -380,7 +508,7 @@ export default function NFTMintLab() {
       warp: 0.25 + rng() * 0.85, grain: 0.02 + rng() * 0.08,
       scale: 1.0 + rng() * 3.5, speed: 0.3 + rng() * 1.2,
     } as Traits;
-  }, [seed, edition, rng]);
+  }, [seed, edition]);
 
   // Foreground renderer
   useEffect(() => {
@@ -435,12 +563,7 @@ export default function NFTMintLab() {
     const camera = new THREE.OrthographicCamera(-1,1,1,-1,0,1);
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: false });
     renderer.setPixelRatio(Math.min(1.5, window.devicePixelRatio));
-    const setBG = () => {
-      const w = Math.max(1, window.innerWidth);
-      const h = Math.max(1, window.innerHeight);
-      renderer.setSize(w, h, false);
-      if (bgShaderRef.current) (bgShaderRef.current.uniforms.uRes.value as THREE.Vector2).set(w,h);
-    };
+    const setBG = () => renderer.setSize(Math.max(1, window.innerWidth), Math.max(1, window.innerHeight), false);
     setBG();
     renderer.setClearAlpha(0);
     host.appendChild(renderer.domElement);
@@ -483,11 +606,10 @@ export default function NFTMintLab() {
       const absAp = Math.abs(camSig.current.approach);
       const absAc = Math.abs(camSig.current.activity);
 
-      gate.current.accX    = absFx > th.fx   ? Math.min(gate.current.accX    + dt, commitSec + 1) : Math.max(gate.current.accX    - dt, 0);
-      gate.current.accY    = absFy > th.fy   ? Math.min(gate.current.accY    + dt, commitSec + 1) : Math.max(gate.current.accY    - dt, 0);
-      gate.current.accAppr = absAp > th.appr ? Math.min(gate.current.accAppr + dt, commitSec + 1) : Math.max(gate.current.accAppr - dt, 0);
-      gate.current.accAct  = absAc > th.act  ? Math.min(gate.current.accAct  + dt, commitSec + 1) : Math.max(gate.current.accAct  - dt, 0);
-
+ gate.current.accX   = absFx > th.fx   ? Math.min(gate.current.accX   + dt, commitSec + 1) : Math.max(gate.current.accX   - dt, 0);
+gate.current.accY   = absFy > th.fy   ? Math.min(gate.current.accY   + dt, commitSec + 1) : Math.max(gate.current.accY   - dt, 0);
+gate.current.accAppr= absAp > th.appr ? Math.min(gate.current.accAppr+ dt, commitSec + 1) : Math.max(gate.current.accAppr- dt, 0);
+gate.current.accAct = absAc > th.act  ? Math.min(gate.current.accAct + dt, commitSec + 1) : Math.max(gate.current.accAct - dt, 0);
       if (gate.current.mode === 'none') {
         const vals = [
           {k:'fx', v: gate.current.accX},
@@ -522,21 +644,16 @@ export default function NFTMintLab() {
       effSig.current.z = lerp(effSig.current.z, ga, 0.12);
       effSig.current.w = lerp(effSig.current.w, gact, 0.12);
 
-      const v = effSig.current;
-
-      // uniforms
-      const t = now / 1000;
+      // uniforms and render
+      const t = (now) / 1000;
       if (shaderRef.current) {
         shaderRef.current.uniforms.uTime.value = t;
-        (shaderRef.current.uniforms.uInput.value as THREE.Vector4).copy(v);
+        (shaderRef.current.uniforms.uInput.value as THREE.Vector4).copy(effSig.current);
       }
       if (bgShaderRef.current) {
         bgShaderRef.current.uniforms.uTime.value = t;
-        (bgShaderRef.current.uniforms.uInput.value as THREE.Vector4).copy(v);
+        (bgShaderRef.current.uniforms.uInput.value as THREE.Vector4).copy(effSig.current);
       }
-
-      // audio update
-      audioRef.current?.updateControls({ fx: v.x, fy: v.y, approach: v.z, activity: v.w, mode: algoIndexRef.current });
 
       const r = rendererRef.current, s = sceneRef.current, c = cameraRef.current; if (r && s && c) r.render(s,c);
       const br = bgRendererRef.current, bs = bgSceneRef.current, bc = bgCameraRef.current; if (br && bs && bc) br.render(bs, bc);
@@ -559,32 +676,9 @@ export default function NFTMintLab() {
       mat.uniforms.uSpeed.value = traits.speed;
       mat.uniforms.uC0.value = pal[0]; mat.uniforms.uC1.value = pal[1]; mat.uniforms.uC2.value = pal[2]; mat.uniforms.uC3.value = pal[3]; mat.uniforms.uC4.value = pal[4];
     };
-    apply(shaderRef.current); apply(bgShaderRef.current);
-    // record algo idx for audio mapping
-    algoIndexRef.current = ALGORITHMS.findIndex(a => a.name === traits.algorithm);
+    apply(shaderRef.current); apply(bgShaderRef.current); algoIndexRef.current = ALGORITHMS.findIndex(a => a.name === traits.algorithm);
+
   }, [traits]);
-
-  // Audio engine lifecycle
-  useEffect(() => {
-    if (!audioRef.current) audioRef.current = new AudioEngine(seed);
-    audioRef.current.setTraits({ seed, edition, palette: traits.palette, algorithm: traits.algorithm });
-    audioRef.current.setVolume(audioVol);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (!audioRef.current) return;
-    audioRef.current.setSeed(seed);
-    audioRef.current.setTraits({ seed, edition, palette: traits.palette, algorithm: traits.algorithm });
-  }, [seed, edition, traits.palette, traits.algorithm]);
-
-  useEffect(() => {
-    const eng = audioRef.current;
-    if (!eng) return;
-    if (audioOn) eng.start(); else eng.stop();
-  }, [audioOn]);
-
-  useEffect(() => { audioRef.current?.setVolume(audioVol); }, [audioVol]);
 
   // Camera: motion/flow estimator (no video shown)
   useEffect(() => {
@@ -647,7 +741,6 @@ export default function NFTMintLab() {
     return () => { cancelAnimationFrame(raf); prev = null; if (stream) stream.getTracks().forEach(t=>t.stop()); };
   }, [camOn]);
 
-  // Mint helpers
   const [minted, setMinted] = useState<{edition:number; seed:string; dataUrl:string; traits:Traits}[]>([]);
   function mintNow(){
     const r = rendererRef.current; if (!r) return;
@@ -683,7 +776,7 @@ export default function NFTMintLab() {
         <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Chaos Algorithm — NFT Mint Lab</h1>
         <div className="hidden sm:flex gap-2 text-xs text-neutral-300"><span>React</span><span>•</span><span>Three.js</span><span>•</span><span>Tailwind</span><span>•</span><span>TypeScript</span></div>
       </header>
-      <main className="px-6 pb-8 grid xl:grid-cols-[1fr,420px] gap-6">
+      <main className="px-6 pb-8 grid lg:grid-cols-[1fr,420px] gap-6">
         <section className="relative rounded-2xl overflow-hidden border border-neutral-800 bg-black/70 shadow-[0_0_0_1px_rgba(255,255,255,0.03)] h-[56vh] min-h-[320px] md:h-[64vh]">
           <div className="absolute inset-0" ref={mountRef} />
           <div className="absolute left-3 top-3 pointer-events-none select-none">
@@ -691,7 +784,7 @@ export default function NFTMintLab() {
               #{String(edition).padStart(4,"0")} — {traits.algorithm}
             </div>
           </div>
-          {showHUD && (
+          {true && (
             <div className="absolute right-2 top-2 text-[10px] space-y-1 bg-neutral-900/60 border border-neutral-800 rounded-md p-2">
               <div>fx: {camSig.current.fx.toFixed(2)}</div>
               <div>fy: {camSig.current.fy.toFixed(2)}</div>
@@ -701,7 +794,7 @@ export default function NFTMintLab() {
             </div>
           )}
         </section>
-        <aside className="xl:sticky xl:top-6 h-max">
+        <aside className="lg:sticky lg:top-6 h-max">
           <div className="rounded-2xl border border-neutral-800 bg-neutral-900/60 backdrop-blur p-4 flex flex-col gap-3">
             <div>
               <div className="text-sm text-neutral-200">Seed</div>
@@ -722,38 +815,13 @@ export default function NFTMintLab() {
                 <div className="mt-1 flex items-center gap-1">{traits.palette.map((h,i)=>(<span key={i} className="inline-block w-6 h-6 rounded-sm border border-neutral-800" style={{background:h}} />))}</div>
               </div>
             </div>
-
             <div className="mt-2 border-t border-neutral-800 pt-3 flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <div className="text-sm">Camera‑Reactive Mode</div>
                 <button onClick={()=>setCamOn(v=>!v)} className={`px-3 py-1 rounded ${camOn?"bg-white text-black":"border border-neutral-700 hover:border-neutral-500"}`}>{camOn?"On":"Enable"}</button>
               </div>
-              <div className="flex gap-2 items-center">
-                <button onClick={()=>setShowHUD(v=>!v)} className="px-3 py-1 rounded border border-neutral-700 hover:border-neutral-500">{showHUD?"Hide HUD":"Show HUD"}</button>
-                <button onClick={()=>{camSig.current = {fx:0,fy:0,approach:0,activity:0}; effSig.current.set(0,0,0,0); gate.current={accX:0,accY:0,accAppr:0,accAct:0,mode:'none',hold:0}}} className="px-3 py-1 rounded border border-neutral-700 hover:border-neutral-500">Calibrate</button>
-                {camErr && <span className="text-xs text-red-300">{camErr}</span>}
-              </div>
-              <p className="text-[11px] text-neutral-400">3 sn boyunca tutarlı hareket yakalanınca güçlü tepki verir; aksi halde zayıf tepki (titreşim azaltma).</p>
+              <p className="text-[11px] text-neutral-400">3 sn tutarlı hareket yakalanınca güçlü tepki; kısa/kararsız hareketlerde zayıf tepki.</p>
             </div>
-
-            {/* Audio controls */}
-            <div className="mt-2 border-t border-neutral-800 pt-3 flex flex-col gap-2">
-              <div className="flex items-center justify-between">
-                <div className="text-sm">Audio (Generative)</div>
-                <button
-                  onClick={()=>setAudioOn(v=>!v)}
-                  className={`px-3 py-1 rounded ${audioOn?"bg-white text-black":"border border-neutral-700 hover:border-neutral-500"}`}
-                >
-                  {audioOn?"On":"Enable"}
-                </button>
-              </div>
-              <div className="flex items-center gap-2">
-                <input type="range" min={0} max={1} step={0.01} value={audioVol} onChange={(e)=>setAudioVol(parseFloat(e.target.value))} className="w-full" />
-                <span className="text-xs">{Math.round(audioVol*100)}%</span>
-              </div>
-              <p className="text-[11px] text-neutral-400">Ses, görüntü sinyaline bağlıdır: aktivite → tempo/yoğunluk, fx/fy → panorama/senkop, yaklaşma → reverb/delay. Tarayıcı politika gereği ses <em>buton</em> ile başlatılır.</p>
-            </div>
-
             <div className="flex gap-2 pt-2">
               <button onClick={mintNow} className="flex-1 py-2 rounded-xl bg-white text-black font-medium hover:opacity-90">Mint Preview</button>
               <button onClick={downloadPNG} className="px-3 py-2 rounded-xl border border-neutral-700 hover:border-neutral-500">PNG</button>
@@ -762,31 +830,11 @@ export default function NFTMintLab() {
           </div>
         </aside>
       </main>
-
-      {minted.length>0 && (
-        <div className="px-6 pb-8">
-          <div className="text-sm text-neutral-300 mb-2">Minted (last {minted.length})</div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-            {minted.map((m)=> (
-              <div key={m.seed+"_"+m.edition} className="rounded-lg overflow-hidden border border-neutral-800 bg-neutral-900/50">
-                <img src={m.dataUrl} alt={`#${m.edition}`} className="w-full h-auto block" />
-                <div className="px-2 py-1 text-xs text-neutral-300">#{String(m.edition).padStart(4,'0')} — {m.traits.algorithm}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
       <footer className="px-6 pb-6 text-xs text-neutral-300">Vite `server.open` aktif: `npm run dev` ile sayfa otomatik açılır.</footer>
     </div>
   );
 }
 
 function Trait({label, value}:{label:string; value:string}){
-  return (
-    <div className="rounded border border-neutral-800 px-2 py-1">
-      <div className="text-xs text-neutral-300">{label}</div>
-      <div className="text-sm">{value}</div>
-    </div>
-  );
+  return (<div className="rounded border border-neutral-800 px-2 py-1"><div className="text-xs text-neutral-300">{label}</div><div className="text-sm">{value}</div></div>);
 }
